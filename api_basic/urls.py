@@ -2,6 +2,7 @@
 from django.urls import path, include
 from .views import article_list, articledetail, ArticleView, ArticleDetail, GenericView, ArticleViewSet, ArticleGenericViewSet, ArticleModelViewSet
 from rest_framework.routers import DefaultRouter
+#from django.contrub.auth.models import User, Group
 
 
 router = DefaultRouter()

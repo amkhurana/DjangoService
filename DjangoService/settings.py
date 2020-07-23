@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,11 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
-    'api_basic'
+    #'rest_framework.authtoken',
+    'api_basic',
+    'bookmarks',
+    'localusers'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +58,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'DjangoService.urls'
+
+
 
 TEMPLATES = [
     {
@@ -109,11 +116,26 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser'
     ),
      'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
+        #'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ]
+        #'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+         'rest_framework.permissions.DjangoModelPermissions',
+        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 25
 }
+
+AUTH_USER_MODEL = 'localusers.LocalUser'
+
+LOGIN_REDIRECT_URL = '/'
+
+#'rest_framework.permissions.IsAdminUser',
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
